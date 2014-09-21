@@ -135,11 +135,10 @@ func (t *Templates) parseFile(path string, f os.FileInfo, err error) error {
 	}
 
 	subPath := strings.Replace(path, t.Dir+"/", "", 1)
-	name := strings.Replace(f.Name(), ext, "", 1)
 	if strings.HasPrefix(subPath, t.ViewsDir+"/") {
-		t.Views[name] = string(contents)
+		t.Views[subPath] = string(contents)
 	} else {
-		t.Partials[name] = string(contents)
+		t.Partials[subPath] = string(contents)
 	}
 
 	return nil

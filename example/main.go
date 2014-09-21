@@ -52,7 +52,7 @@ func IndexHandler(w http.ResponseWriter, req *http.Request) {
 	buf := &bytes.Buffer{}
 
 	// render the index page to buf
-	err := tmpls.Template("index").Render(buf, "base", map[string]interface{}{
+	err := tmpls.Template("views/index.html").Render(buf, "base.html", map[string]interface{}{
 		"Title":   "Index Page Title",
 		"Css":     css,
 		"Scripts": scripts,
@@ -72,7 +72,7 @@ func AboutHandler(w http.ResponseWriter, req *http.Request) {
 	buf := &bytes.Buffer{}
 
 	// render the about page to buf
-	err := tmpls.Template("about").Render(buf, "base", map[string]interface{}{
+	err := tmpls.Template("views/about.html").Render(buf, "base.html", map[string]interface{}{
 		"Title":   "About Page Title",
 		"Css":     css,
 		"Scripts": scripts,

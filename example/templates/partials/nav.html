@@ -2,9 +2,7 @@
 <nav>
 	<ul>
 	{{range $item := .Menu}}
-		<li>
-		<a {{range $key, $value := $item.Attrs }}{{$key}}="{{$value}}"{{end}}>{{$item.Name}}</a>
-		</li>
+		<li><a {{range $key, $value := $item.Attrs }}{{$key}}="{{$value}}"{{end}}>{{$item.Name}}</a></li>
 	{{ end }}
 	</ul>
 </nav>

@@ -1,5 +1,5 @@
 {{ define "head" }}
-	{{template "css" . }}
+	{{template "partials/css.html" . }}
 {{ end }}
 
 {{ define "body" }}
@@ -8,7 +8,7 @@
 {{ end }}
 
 {{ define "footer" }}
-	{{template "scripts" . }}
+	{{template "partials/scripts.html" . }}
 	<footer>
 		About Page Footer
 	</footer>
