@@ -1,6 +1,6 @@
 /*
 
-Package templates is a thin wrapper around html/templates.
+Package templates is a thin wrapper around html/template.
 
 The templates package main function is to create a collection
 of templates found in a templates directory
