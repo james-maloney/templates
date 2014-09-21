@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{{template "head" . }}
+		<title>{{.Title}}</title>
+	</head>
+	<body>
+		<header>
+			<h1 class="logo">Templates Example Site</h1>
+			{{ template "nav" . }}
+		</header>
+		{{template "body" . }}
+		{{template "footer" . }}
+	</body>
+</html>

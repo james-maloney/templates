@@ -1,0 +1,15 @@
+{{ define "head" }}
+	{{template "css" . }}
+{{ end }}
+
+{{ define "body" }}
+	<h2>Hello World</h2>
+	<p>A simple index page</p>
+{{ end }}
+
+{{ define "footer" }}
+	{{template "scripts" . }}
+	<footer>
+		About Page Footer
+	</footer>
+{{ end }}
