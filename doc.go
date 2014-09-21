@@ -5,8 +5,8 @@ Package templates is a thin wrapper around html/template.
 The templates package main function is to create a collection
 of templates found in a templates directory
 
-The templates directory structure only requires that a 'views' directory exist and it contains at least on html template.
-An html template will be created for each template found in the views directory.
+The templates directory structure only requires that a 'views' directory exist and it contains at least one HTML template.
+An HTML template will be created for each template found in the views directory.
 
 All other views that are not in the 'views' directory will be made available to each view template
 
