@@ -91,7 +91,7 @@ Usage
 	fund main() {
 		// the first method call specifies the 'views/index.html' view and the Render call
 		// specifies that the 'base.html' template should be rendered to os.Stdout
-		err := tmpls.Template("views/index.html").Render(os.Stdout, "base.html", nil)
+		err := tmpls.Get("views/index.html").Render(os.Stdout, "base.html", nil)
 		if err != nil {
 			// handle error
 		}

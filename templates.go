@@ -37,8 +37,8 @@ func New() *Templates {
 	return t
 }
 
-// Template looks up an html template by view name
-func (t *Templates) Template(name string) *Template {
+// Get looks up an html template by view name
+func (t *Templates) Get(name string) *Template {
 	tmpl := &Template{
 		templates: t,
 		name:      name,
