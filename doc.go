@@ -72,7 +72,7 @@ templates/partials/nav.html
 	</nav>
 	{{ end }}
 
-Usage
+Usage:
 
 	// templates collection
 	var tmpls *templates.Templates
