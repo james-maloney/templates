@@ -1,5 +1,4 @@
 /*
-
 Package templates is a thin wrapper around html/template.
 
 The templates package main function is to create a collection
