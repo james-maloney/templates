@@ -135,7 +135,7 @@ func (t *Templates) parseFile(path string, f os.FileInfo, err error) error {
 	}
 
 	subPath := strings.Replace(path, t.Dir+"/", "", 1)
-	if strings.HasPrefix(subPath, t.ViewsDir+"/") {
+	if strings.Contains(path, "/view/") || strings.Contains(path, "/views/") {
 		t.Views[subPath] = string(contents)
 	} else {
 		t.Partials[subPath] = string(contents)
