@@ -24,76 +24,84 @@ Template Examples
 
 templates/base.html
 
-	<!DOCTYPE html>
-	<html>
-		<head>
-			{{template "head" . }}
-			<title>{{.Title}}</title>
-		</head>
-		<body>
-			<header>
-				<h1 class="logo">Templates Example Site</h1>
-				{{ template "partials/nav.html" . }}
-			</header>
-			{{template "body" . }}
-			{{template "footer" . }}
-		</body>
-	</html>
+```HTML
+<!DOCTYPE html>
+<html>
+	<head>
+		{{template "head" . }}
+		<title>{{.Title}}</title>
+	</head>
+	<body>
+		<header>
+			<h1 class="logo">Templates Example Site</h1>
+			{{ template "partials/nav.html" . }}
+		</header>
+		{{template "body" . }}
+		{{template "footer" . }}
+	</body>
+</html>
+```
 
 templates/views/index.html
 
-	{{ define "head" }}
-		{{template "partials/css.html" . }}
-	{{ end }}
+```HTML
+{{ define "head" }}
+	{{template "partials/css.html" . }}
+{{ end }}
 
-	{{ define "body" }}
-		<h2>Hello World</h2>
-		<p>A simple index page</p>
-	{{ end }}
+{{ define "body" }}
+	<h2>Hello World</h2>
+	<p>A simple index page</p>
+{{ end }}
 
-	{{ define "footer" }}
-		{{template "partials/scripts.html" . }}
-		<footer>
-			About Page Footer
-		</footer>
-	{{ end }}
+{{ define "footer" }}
+	{{template "partials/scripts.html" . }}
+	<footer>
+		About Page Footer
+	</footer>
+{{ end }}
+```
 
 templates/partials/nav.html
 
-	{{ if .Menu }}
-	<nav>
-		<ul>
-		{{range $item := .Menu}}
-			<li><a {{range $key, $value := $item.Attrs }}{{$key}}="{{$value}}"{{end}}>{{$item.Name}}</a></li>
-		{{ end }}
-		</ul>
-	</nav>
+```HTML
+{{ if .Menu }}
+<nav>
+	<ul>
+	{{range $item := .Menu}}
+		<li><a {{range $key, $value := $item.Attrs }}{{$key}}="{{$value}}"{{end}}>{{$item.Name}}</a></li>
 	{{ end }}
+	</ul>
+</nav>
+{{ end }}
+```
 
 Usage:
 
-	// templates collection
-	var tmpls *templates.Templates
+```Go
+// templates collection
+var tmpls *templates.Templates
 
-	// path to template directory
-	var templatesPath = "templates/"
+// path to template directory
+var templatesPath = "templates/"
 
-	func init() {
-		var err error
-		templs, err = templates.New().Parse(templatesPath)
-		if err != nil {
-			log.Fatal(err)
-		}
+func init() {
+	var err error	
+	templs, err = templates.New().Parse(templatesPath)
+	if err != nil {
+		log.Fatal(err)
 	}
+}
 
-	fund main() {
-		// the first method call specifies the 'views/index.html' view and the Render call
-		// specifies that the 'base.html' template should be rendered to os.Stdout
-		err := tmpls.Get("views/index.html").Render(os.Stdout, "base.html", nil)
-		if err != nil {
-			// handle error
-		}
+fund main() {
+	// the first method call specifies the 'views/index.html' view and the Render call
+	// specifies that the 'base.html' template should be rendered to os.Stdout
+	err := tmpls.Get("views/index.html").Render(os.Stdout, "base.html", nil)
+	if err != nil {
+		// handle error
 	}
+}
+```
 
 Example Site
 
