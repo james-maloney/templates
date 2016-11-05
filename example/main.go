@@ -1,8 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,46 +12,43 @@ import (
 var (
 	// templates global that will contain all of our parsed temlates from the templates directory
 	tmpls *templates.Templates
+	port  = ":8083"
+	host  = "http://localhost" + port
 )
 
-var tmplDir = flag.String("tmpl-dir", "templates", "Path to the templates directory")
-
 var (
-	css     = []string{"http://foo.com/main.css"}
-	scripts = []string{"http://foo.com/main.js"}
+	css     = []string{fmt.Sprintf("%v/static/css/main.css", host)}
+	scripts = []string{fmt.Sprintf("%v/static/js/main.js", host)}
 )
 
 // parse the templates in the template directory
 func init() {
-	flag.Parse()
-
 	var err error
-	tmpls, err = templates.New().Parse(*tmplDir + "/templates")
+	tmpls, err = templates.New().ParseDir("./templates", "templates/")
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
 func main() {
-
 	// Index page route
 	http.HandleFunc("/", IndexHandler)
 
 	// About page route
 	http.HandleFunc("/about", AboutHandler)
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+
 	// Start http server
-	if err := http.ListenAndServe(":8083", nil); err != nil {
+	log.Println("Server started on " + host)
+	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Fatal(err)
 	}
 }
 
 // IndexHandler serves the index page
 func IndexHandler(w http.ResponseWriter, req *http.Request) {
-	buf := &bytes.Buffer{}
-
-	// render the index page to buf
-	err := tmpls.Get("views/index.html").Render(buf, "base.html", map[string]interface{}{
+	b, err := tmpls.RenderBytes("base.html", "views/index.html", map[string]interface{}{
 		"Title":   "Index Page Title",
 		"Css":     css,
 		"Scripts": scripts,
@@ -64,15 +60,12 @@ func IndexHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// write the index page
-	w.Write(buf.Bytes())
+	w.Write(b)
 }
 
 // AboutHandler serves the about page
 func AboutHandler(w http.ResponseWriter, req *http.Request) {
-	buf := &bytes.Buffer{}
-
-	// render the about page to buf
-	err := tmpls.Get("views/about.html").Render(buf, "base.html", map[string]interface{}{
+	b, err := tmpls.RenderBytes("base.html", "views/about.html", map[string]interface{}{
 		"Title":   "About Page Title",
 		"Css":     css,
 		"Scripts": scripts,
@@ -84,7 +77,7 @@ func AboutHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// write the about page
-	w.Write(buf.Bytes())
+	w.Write(b)
 }
 
 type navItem struct {
