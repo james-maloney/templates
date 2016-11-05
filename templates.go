@@ -3,6 +3,7 @@ package templates
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -204,6 +205,32 @@ func (t *Templates) MustRenderOne(w http.ResponseWriter, view string, data inter
 
 	w.Write(buf.Bytes())
 	t.pool.Put(buf)
+}
+
+func (t *Templates) Execute(w io.Writer, baseView, view string, data interface{}) error {
+	tmpl, ok := t.Templates[view]
+	if !ok {
+		return fmt.Errorf("templates: '%s' not found", view)
+	}
+
+	if err := tmpl.ExecuteTemplate(w, baseView, data); err != nil {
+		return fmt.Errorf("templates: error executing template '%s', error: '%v'", baseView, err)
+	}
+
+	return nil
+}
+
+func (t *Templates) ExecuteOne(w io.Writer, view string, data interface{}) error {
+	tmpl, ok := t.Templates[view]
+	if !ok {
+		return fmt.Errorf("templates: '%s' not found", view)
+	}
+
+	if err := tmpl.Execute(w, data); err != nil {
+		return fmt.Errorf("templates: error executing template '%s', error: '%v'", view, err)
+	}
+
+	return nil
 }
 
 func (t *Templates) RenderBytes(baseView, view string, data interface{}) ([]byte, error) {
