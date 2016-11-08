@@ -235,18 +235,19 @@ func (t *Templates) ExecuteOne(w io.Writer, view string, data interface{}) error
 
 func (t *Templates) RenderBytes(baseView, view string, data interface{}) ([]byte, error) {
 	buf := t.pool.Get()
+	defer func() {
+		t.pool.Put(buf)
+	}()
+
 	tmpl, ok := t.Templates[view]
 	if !ok {
-		t.pool.Put(buf)
 		return nil, fmt.Errorf("templates: '%s' not found", view)
 	}
 
 	if err := tmpl.ExecuteTemplate(buf, baseView, data); err != nil {
-		t.pool.Put(buf)
 		return nil, fmt.Errorf("templates: error executing template '%s', error: '%v'", baseView, err)
 	}
 
 	b := buf.Bytes()
-	t.pool.Put(buf)
 	return b, nil
 }
